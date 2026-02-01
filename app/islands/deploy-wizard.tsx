@@ -901,13 +901,13 @@ export default function DeployWizard({ isLoggedIn, hasVercel, hasCloudflare }: P
 
             <div class="flex flex-col gap-3">
               <a
-                href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(`我剛用 SheepIt 三分鐘就把網站部署上線了！🚀 ${deploymentUrl || ''}`)}`}
+                href={`https://www.threads.net/intent/post?text=${encodeURIComponent(`我剛用 SheepIt 三分鐘就把網站部署上線了！🚀 ${deploymentUrl || ''}`)}`}
                 target="_blank"
                 rel="noopener"
                 class="w-full py-3 rounded-xl text-white font-semibold text-sm no-underline text-center"
-                style="background:rgba(29,161,242,0.2);border:1px solid rgba(29,161,242,0.3);color:#1da1f2"
+                style="background:rgba(0,0,0,0.2);border:1px solid rgba(255,255,255,0.2);color:#ffffff"
               >
-                分享到 Twitter
+                分享到 Threads
               </a>
               <button
                 onClick={() => {

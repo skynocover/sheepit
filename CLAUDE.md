@@ -6,17 +6,20 @@
 - **Build**: `npm run build` — runs `vite build --mode client && vite build` (client then SSR)
 - **Preview**: `npm run preview` — runs `wrangler dev` against built output
 - **Deploy**: `npm run deploy` — builds then `wrangler deploy`
-- **DB migrations**: `npx drizzle-kit generate` then `npx drizzle-kit migrate`
+- **DB generate**: `pnpm db:generate` — generates migration SQL from schema
+- **DB migrate (local)**: `pnpm db:migrate` — applies migrations to local D1
+- **DB migrate (prod)**: `pnpm db:migrate:prod` — applies migrations to remote D1
 - **Type check**: `npx tsc --noEmit` (note: some pre-existing drizzle-orm type issues exist)
 
 ## Architecture
 
 HonoX app running on Cloudflare Workers. File-based routing under `app/routes/`. UI is Traditional Chinese (zh-TW).
 
-**Runtime**: Cloudflare Workers + D1 (SQLite) + KV (sessions)
+**Runtime**: Cloudflare Workers + D1 (SQLite)
 **Frontend**: HonoX islands architecture + Tailwind CSS v4 (with `@theme` block in `style.css`)
 **ORM**: Drizzle ORM — schema in `app/db/schema.ts` (users, projects, deployments tables)
 **Auth**: GitHub OAuth for login, Vercel OAuth for deploy, Cloudflare API token for DNS
+**Session**: Signed Cookie (HMAC-SHA256), no KV dependency
 
 ### Key directories
 
@@ -49,8 +52,13 @@ Islands use `hono/jsx`, NOT React. Key differences:
 
 Defined in `wrangler.jsonc`:
 - `DB` — D1 database binding
-- `SESSION` — KV namespace for sessions
-- Secrets (set via `wrangler secret`): `GITHUB_CLIENT_ID`, `GITHUB_CLIENT_SECRET`, `VERCEL_CLIENT_ID`, `VERCEL_CLIENT_SECRET`, `SESSION_SECRET`
+
+Secrets (set via `wrangler secret`):
+- `GITHUB_CLIENT_ID`, `GITHUB_CLIENT_SECRET` — GitHub OAuth
+- `VERCEL_CLIENT_ID`, `VERCEL_CLIENT_SECRET` — Vercel OAuth
+- `VERCEL_INTEGRATION_SLUG` — Vercel integration slug
+- `ENCRYPTION_KEY` — Token encryption key (AES)
+- `SESSION_SECRET` — Signed cookie HMAC key
 
 ## Critical Rules
 

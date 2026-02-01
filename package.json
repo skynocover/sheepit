@@ -7,7 +7,8 @@
     "preview": "wrangler dev",
     "deploy": "pnpm build && wrangler deploy",
     "db:generate": "drizzle-kit generate",
-    "db:migrate": "wrangler d1 migrations apply DB --local"
+    "db:migrate": "wrangler d1 migrations apply DB --local",
+    "db:migrate:prod": "wrangler d1 migrations apply DB --remote"
   },
   "private": true,
   "pnpm": {
